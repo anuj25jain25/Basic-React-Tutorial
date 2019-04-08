@@ -1,6 +1,6 @@
 import React from "react";
 import Radium  from 'radium';
-import './person.css';
+import classes from './person.css';
 
 const Person = props => {
   const style = {
@@ -9,7 +9,7 @@ const Person = props => {
     }
   }
   return (
-      <div className="person-wrapper" style={style}>
+      <div className={classes['person-wrapper']} style={style}>
         <p onClick={props.click}>
           My name is {props.name} & my age is {props.age}yrs
       </p>

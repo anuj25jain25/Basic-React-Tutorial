@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Person from "./Person/Person";
 import Radium, { StyleRoot } from "radium";
-import "./App.css";
+import classes from "./App.css";
 
 class App extends Component {
   state = {
@@ -137,7 +137,7 @@ class App extends Component {
     }
     return (
       <StyleRoot>
-        <div className="App">
+        <div className={classes.App}>
           <h1>Hi there !</h1>
           <button
             style={style}
