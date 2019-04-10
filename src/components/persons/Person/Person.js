@@ -1,21 +1,32 @@
-import React from "react";
-import Radium  from 'radium';
+import React, { Component } from "react";
 import classes from './person.css';
+import withClass from "../../../hoc/with-class";
+import Aux from "../../../hoc/aux";
 
-const Person = props => {
-  const style = {
-    '@media (min-width: 500px)': {
-      width: '450px'
-    }
+class Person extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[Person.js] inside constructor');
   }
-  return (
-      <div className={classes['person-wrapper']} style={style}>
-        <p onClick={props.click}>
-          My name is {props.name} & my age is {props.age}yrs
-      </p>
-        <input type="text" onChange={props.changed} value={props.name} />
-      </div>
-  );
+
+  componentWillMount() {
+    console.log('[Person.js] inside componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('[Person.js] inside componentDidMount');
+  }
+  render() {
+    console.log('[Person.js] inside render');
+    return (
+      <Aux>
+        <p onClick={this.props.click}>
+          My name is {this.props.name} & my age is {this.props.age}yrs
+        </p>
+        <input type="text" onChange={this.props.changed} value={this.props.name} />
+      </Aux>
+    );
+  }
 };
 
-export default Radium(Person);
+export default withClass(Person, classes['person-wrapper']);

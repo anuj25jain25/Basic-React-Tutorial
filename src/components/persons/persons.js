@@ -1,25 +1,54 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import Person from "./Person/Person";
 import ErrorBoundary from "../ErrorBoundary/errorBoundary";
 
-const persons = (props) =>
-    props.persons.map((person, index) => {
+class Persons extends PureComponent {
+    constructor(props) {
+        super(props);
+        console.log('[Persons.js] inside constructor');
+    }
 
-        // const rnd = Math.random();
-        // if (rnd > 0.7) {
-        //   throw new Error('Something Went Wrong');
-        // }
+    componentWillMount() {
+        console.log('[Persons.js] inside componentWillMount');
+    }
 
-        return (
-            <ErrorBoundary key={person.id}>
-                <Person
-                    name={person.name}
-                    age={person.age}
-                    click={() => props.clicked(index)}
-                    changed={(event) => props.changed(event, person.id)}
-                />
-            </ErrorBoundary>
-        );
-    });
+    componentDidMount() {
+        console.log('[Persons.js] inside componentDidMount');
+    }
 
-export default persons;
+    componentWillReceiveProps(nextProps) {
+        console.log('[Update Persons.js] inside componentWillReceiveProps', nextProps);
+    }
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('[Update Persons.js] inside shouldComponentUpdate', nextProps, nextState);
+    //     return nextProps.persons !== this.props.persons ||
+    //         nextProps.changed !== this.props.changed ||
+    //         nextProps.clicked !== this.props.clicked;
+    // }
+    componentDidUpdate() {
+        console.log('[Update Persons.js] inside componentDidUpdate');
+    }
+    render() {
+        return this.props.persons.map((person, index) => {
+
+            // const rnd = Math.random();
+            // if (rnd > 0.7) {
+            //   throw new Error('Something Went Wrong');
+            // }
+
+            return (
+                <ErrorBoundary key={person.id}>
+                    <Person
+                        name={person.name}
+                        age={person.age}
+                        click={() => this.props.clicked(index)}
+                        changed={(event) => this.props.changed(event, person.id)}
+                    />
+                </ErrorBoundary>
+            );
+        });
+    }
+}
+
+export default Persons;

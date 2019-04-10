@@ -1,4 +1,10 @@
-.person-wrapper{
+@media (min-width: 500px) {
+    .person-wrapper {
+        width: 450px !important;
+    }
+}
+
+.person-wrapper {
     width: 60%;
     padding: 20px;
     border: 1px solid grey;
