@@ -5,6 +5,7 @@ import ErrorBoundary from "../ErrorBoundary/errorBoundary";
 class Persons extends PureComponent {
     constructor(props) {
         super(props);
+        this.lastPersonRef = React.createRef();
         console.log('[Persons.js] inside constructor');
     }
 
@@ -14,6 +15,7 @@ class Persons extends PureComponent {
 
     componentDidMount() {
         console.log('[Persons.js] inside componentDidMount');
+        this.lastPersonRef.current.focus();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -42,6 +44,8 @@ class Persons extends PureComponent {
                     <Person
                         name={person.name}
                         age={person.age}
+                        position={index}
+                        ref={this.lastPersonRef}
                         click={() => this.props.clicked(index)}
                         changed={(event) => this.props.changed(event, person.id)}
                     />

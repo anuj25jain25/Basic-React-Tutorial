@@ -5,6 +5,7 @@ import classes from "./App.css";
 import withClass from "../hoc/with-class";
 import Aux from "../hoc/aux";
 
+export const AuthContext = React.createContext(false);
 class App extends PureComponent {
   constructor(props) {
     super(props);
@@ -37,21 +38,23 @@ class App extends PureComponent {
     persons: [
       {
         name: "Anuj Jain",
-        age: "22",
+        age: 22,
         id: 1
       },
       {
         name: "Kunj Jain",
-        age: "24",
+        age: 24,
         id: 2
       },
       {
         name: "kunal Jain",
-        age: "20",
+        age: 20,
         id: 3
       }
     ],
-    showPersons: false
+    showPersons: false,
+    toggleClicked: 0,
+    authenticated: false
   };
 
   nameChangeHandler = (event, id) => {
@@ -66,8 +69,11 @@ class App extends PureComponent {
   }
 
   toggleDisplayPersons = () => {
-    this.setState({
-      showPersons: !this.state.showPersons
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !prevState.showPersons,
+        toggleClicked: prevState.toggleClicked + 1
+      }
     });
   };
 
@@ -79,6 +85,23 @@ class App extends PureComponent {
     });
   };
 
+  loginHandler = () => {
+    this.setState({
+      authenticated: true
+    })
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState){
+    console.log('[App.js] inside getDerivedStateFromProps',
+    nextProps,
+    prevState);
+    return prevState;
+  }
+
+  getSnapshotBeforeUpdate(){
+    console.log('[App.js] inside getSnapshotBeforeUpdate');
+  }
+
   render() {
     console.log('[App.js] inside render');
     let persons = null;
@@ -86,7 +109,10 @@ class App extends PureComponent {
     if (this.state.showPersons) {
       persons = (
         <div>
-          <Persons persons={this.state.persons} changed={this.nameChangeHandler} clicked={this.deletePerson} />
+          <Persons
+            persons={this.state.persons}
+            changed={this.nameChangeHandler}
+            clicked={this.deletePerson} />
         </div>
       );
     }
@@ -95,8 +121,11 @@ class App extends PureComponent {
         <button onClick={() => this.setState({ showPersons: true })}>Show Persons</button>
         <Cockpit
           appTitle={this.props.title}
-          clicked={this.toggleDisplayPersons} />
-        {persons}
+          clicked={this.toggleDisplayPersons}
+          login={this.loginHandler} />
+        <AuthContext.Provider value={this.state.authenticated}>
+          {persons}
+        </AuthContext.Provider>
       </Aux>
     );
   }
